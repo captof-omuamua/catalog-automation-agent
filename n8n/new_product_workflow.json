@@ -1,0 +1,83 @@
+{
+  "id": "catalogAgentNewProduct",
+  "name": "New product -> catalog agent -> Slack",
+  "active": false,
+  "settings": {},
+  "nodes": [
+    {
+      "id": "b1f0a7c2-0001-4c1e-9a10-000000000001",
+      "name": "New product",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "5d6c8e0e-6a0e-4a8e-9c5e-7d9a0d4f2b11",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "new-product",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "b1f0a7c2-0002-4c1e-9a10-000000000002",
+      "name": "Tag with the agent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [260, 0],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.AGENT_URL }}/webhooks/product-created",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "X-API-Key", "value": "={{ $env.AGENT_API_KEY }}" }]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.body) }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "b1f0a7c2-0003-4c1e-9a10-000000000003",
+      "name": "Needs review?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [520, 0],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" },
+          "conditions": [
+            {
+              "id": "c0ffee00-0000-4000-8000-000000000001",
+              "leftValue": "={{ $json.needs_review }}",
+              "rightValue": "",
+              "operator": { "type": "boolean", "operation": "true", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b1f0a7c2-0004-4c1e-9a10-000000000004",
+      "name": "Tell Slack",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, -80],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.SLACK_WEBHOOK_URL }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ text: 'Needs a reviewer: product ' + $json.product_id + ' (' + $json.review[0].attribute + '; model guessed ' + $json.review[0].predicted + ' at ' + $json.review[0].confidence.toFixed(2) + ')' }) }}",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "New product": { "main": [[{ "node": "Tag with the agent", "type": "main", "index": 0 }]] },
+    "Tag with the agent": { "main": [[{ "node": "Needs review?", "type": "main", "index": 0 }]] },
+    "Needs review?": { "main": [[{ "node": "Tell Slack", "type": "main", "index": 0 }], []] }
+  }
+}

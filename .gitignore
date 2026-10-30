@@ -1,0 +1,13 @@
+# Environments and caches
+.venv*/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.env
+
+# ImplicitAVE is not redistributed; run outputs and databases stay local
+data/
+outputs/
+logs/
+n8n_data/

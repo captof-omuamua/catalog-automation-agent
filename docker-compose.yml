@@ -1,0 +1,30 @@
+services:
+  # Stand-in for a store's catalog API (fault injection for the reliability test)
+  mock-store:
+    build: .
+    command: uvicorn catalog_agent.mock_store:app --host 0.0.0.0 --port 8100
+    ports:
+      - "127.0.0.1:8100:8100"
+    volumes:
+      # product images and listings (ImplicitAVE is not redistributed; mounted read-only)
+      - ${IAVE_ROOT:-/home/garud/catalog-vlm-cascade/data/raw/implicitave}:${IAVE_ROOT:-/home/garud/catalog-vlm-cascade/data/raw/implicitave}:ro
+      - ./data:/app/data
+
+  # Workflow automation: new product webhook -> agent API -> Slack
+  n8n:
+    image: n8nio/n8n:1.123.85
+    # Host network + loopback only: n8n reaches the agent API on 127.0.0.1, and neither is
+    # exposed beyond this machine.
+    network_mode: host
+    environment:
+      - N8N_LISTEN_ADDRESS=127.0.0.1
+      - N8N_SECURE_COOKIE=false
+      - GENERIC_TIMEZONE=Asia/Kolkata
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      # The workflow reads these: the agent API, and Slack (or the agent's local mock)
+      - AGENT_URL=${AGENT_URL:-http://127.0.0.1:8080}
+      - AGENT_API_KEY=${AGENT_API_KEY:-change-me}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL:-http://127.0.0.1:8080/mock/slack}
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+      - ./n8n:/home/node/workflows:ro

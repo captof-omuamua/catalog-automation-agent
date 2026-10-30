@@ -1,0 +1,48 @@
+[project]
+name = "catalog-automation-agent"
+version = "0.1.0"
+description = "An AI agent that fills in and checks product attributes from photos, with human review"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Sisir Kausthubh" }]
+# Everything here is CPU-only: the GPU work happens in a separate vLLM server.
+dependencies = [
+    "langgraph>=0.6",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "aiosqlite>=0.20",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "httpx>=0.27",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "pillow>=10",
+    "mcp>=1.10",
+]
+
+[project.optional-dependencies]
+sheets = ["gspread>=6.0"]
+dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.6", "matplotlib>=3.8"]
+
+[project.scripts]
+catalog-agent-mcp = "catalog_agent.mcp_server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/catalog_agent"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

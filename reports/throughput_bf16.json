@@ -1,0 +1,36 @@
+{
+ "label": "bf16",
+ "image_encode_ms_per_product": 0.4,
+ "gpu_memory_mb_while_serving": 20335,
+ "rows": [
+  {
+   "what": "raw tagger",
+   "parallel": 16,
+   "products_per_s": 25.4,
+   "inr_per_1000": 0.63,
+   "gpu_hours_per_million": 10.9
+  },
+  {
+   "what": "raw tagger",
+   "parallel": 32,
+   "products_per_s": 28.0,
+   "inr_per_1000": 0.57,
+   "gpu_hours_per_million": 9.9
+  },
+  {
+   "what": "raw tagger",
+   "parallel": 64,
+   "products_per_s": 30.3,
+   "inr_per_1000": 0.53,
+   "gpu_hours_per_million": 9.2
+  },
+  {
+   "what": "full agent",
+   "parallel": 64,
+   "products_per_s": 30.3,
+   "failed": 0,
+   "inr_per_1000": 0.53,
+   "gpu_hours_per_million": 9.2
+  }
+ ]
+}

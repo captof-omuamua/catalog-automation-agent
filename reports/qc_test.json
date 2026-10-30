@@ -1,0 +1,11 @@
+{
+ "split": "test",
+ "cutoff": 0.86,
+ "flagged": 231,
+ "catch_rate": 0.6775,
+ "precision": 0.9004,
+ "false_alarm_rate": 0.0177,
+ "online_flags": 231,
+ "wrong_listings": 307,
+ "listings": 1610
+}

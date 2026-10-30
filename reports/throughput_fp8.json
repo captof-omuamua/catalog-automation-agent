@@ -1,0 +1,36 @@
+{
+ "label": "fp8",
+ "image_encode_ms_per_product": 0.4,
+ "gpu_memory_mb_while_serving": 20247,
+ "rows": [
+  {
+   "what": "raw tagger",
+   "parallel": 16,
+   "products_per_s": 39.2,
+   "inr_per_1000": 0.41,
+   "gpu_hours_per_million": 7.1
+  },
+  {
+   "what": "raw tagger",
+   "parallel": 32,
+   "products_per_s": 44.1,
+   "inr_per_1000": 0.36,
+   "gpu_hours_per_million": 6.3
+  },
+  {
+   "what": "raw tagger",
+   "parallel": 64,
+   "products_per_s": 47.9,
+   "inr_per_1000": 0.33,
+   "gpu_hours_per_million": 5.8
+  },
+  {
+   "what": "full agent",
+   "parallel": 64,
+   "products_per_s": 45.1,
+   "failed": 0,
+   "inr_per_1000": 0.35,
+   "gpu_hours_per_million": 6.2
+  }
+ ]
+}

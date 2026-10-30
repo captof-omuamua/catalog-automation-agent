@@ -1,0 +1,20 @@
+{
+ "products": 1000,
+ "faults": {
+  "fail_rate": 0.1,
+  "lost_ack_rate": 0.05
+ },
+ "killed_after_s": 15,
+ "written_before_kill": 431,
+ "rerun_exit_code": 0,
+ "rerun_seconds": 11.0,
+ "auto_written": 761,
+ "waiting_for_review": 239,
+ "lost": 0,
+ "written_and_in_review": 0,
+ "products_written_twice": 0,
+ "replays_rejected": 52,
+ "retries": 153,
+ "retries_per_100_products": 15.3,
+ "passed": true
+}

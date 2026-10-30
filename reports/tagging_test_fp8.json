@@ -1,0 +1,14 @@
+{
+ "split": "test",
+ "products": 1610,
+ "model_accuracy": "84.9%",
+ "auto_tagged": "79.6%",
+ "auto_accuracy": "94.4%",
+ "sent_to_review": "20.4%",
+ "write_fidelity": "100.0%",
+ "final_catalog_accuracy": "95.5%",
+ "failed": 0,
+ "products_written_twice": 0,
+ "agent_seconds": 47.3,
+ "products_per_second": 34.0
+}
