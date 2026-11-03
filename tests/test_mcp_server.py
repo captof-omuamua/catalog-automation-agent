@@ -53,3 +53,13 @@ async def test_tools_list_and_review_round_trip(tmp_path, monkeypatch):
         )
         assert json.loads(ok.content[0].text)["write_status"] == "applied"
         assert list(store.applied.values()) == ["Short"]
+
+
+async def test_tools_declare_safety_hints():
+    """Clients see which tools only read and which can change the catalog."""
+    async with Client(mcp_server.server) as client:
+        hints = {t.name: t.annotations for t in (await client.list_tools()).tools}
+    assert hints["tag_product"].read_only_hint and hints["list_review_queue"].read_only_hint
+    assert not hints["approve_tags"].read_only_hint and hints["approve_tags"].destructive_hint
+    assert not hints["run_catalog"].read_only_hint and not hints["run_catalog"].idempotent_hint
+    assert not any(h.open_world_hint for h in hints.values())
