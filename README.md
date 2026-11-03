@@ -1,5 +1,7 @@
 # catalog-automation-agent
 
+[![M8ven Verified](https://m8ven.ai/badge/mcp/captof-omuamua-catalog-automation-agent-1n6rnj?v=912125d4f8874861313da2ad834125da&variant=verified)](https://m8ven.ai/mcp/captof-omuamua-catalog-automation-agent-1n6rnj?s=readme)
+
 **An AI agent that fills in and checks product attributes from photos: fetch → tag →
 auto-approve or ask a reviewer → write back.** It runs on one laptop GPU with a fine-tuned 4B
 vision model, survives crashes and flaky APIs without losing or duplicating work, and plugs
